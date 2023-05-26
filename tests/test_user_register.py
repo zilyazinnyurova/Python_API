@@ -1,4 +1,4 @@
-import requests
+from lib.my_requests import MyRequests
 import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
@@ -20,10 +20,11 @@ class TestUserRegister(BaseCase):
             'email': self.email
         }
 
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
+
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
         data = {
@@ -35,7 +36,7 @@ class TestUserRegister(BaseCase):
             'email': email
         }
 
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"Users with email '{email}' already exists", f"Unexpected response content {response.content}"
@@ -51,7 +52,7 @@ class TestUserRegister(BaseCase):
             'email': email
         }
 
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"Invalid email format", f"Unexpected response content {response.content}"
@@ -70,7 +71,7 @@ class TestUserRegister(BaseCase):
         }
 
         del data[exclude_field]
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"The following required params are missed: {exclude_field}", f"Unexpected response content {response.content}"
 
@@ -86,7 +87,7 @@ class TestUserRegister(BaseCase):
             'email': self.email
         }
 
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
@@ -104,9 +105,7 @@ class TestUserRegister(BaseCase):
             'email': self.email
         }
 
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
-        # print(response.status_code)
-        # print(response.content)
+        response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"The value of 'username' field is too long", f"Unexpected response content {response.content}"
