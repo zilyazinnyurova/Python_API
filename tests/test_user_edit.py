@@ -103,7 +103,7 @@ class TestUserEdit(BaseCase):
         )
 
 
-        # Ex17_EDIT_EMAIL
+        # Ex17_EDIT_EMAIL_WITHOUT_@
         email_new = "testexample.com"
         response9 = MyRequests.put(f"/user/{user_id}",
             headers={"x-csrf-token": token},
@@ -115,7 +115,7 @@ class TestUserEdit(BaseCase):
         assert response9.content.decode("utf-8") == f"Invalid email format", f"Unexpected response content {response9.content}"
 
 
-        # Ex17_EDIT_EMAIL_WITHOUT_@
+        # Ex17_EDIT_FIRSTNAME
         firstName_name = "t"
         response10 = MyRequests.put(f"/user/{user_id}",
             headers={"x-csrf-token": token},
